@@ -1,0 +1,73 @@
+site_name: forgeevent
+repo_url: https://github.com/landygg/forgeevent-py
+site_url: https://landygg.github.io/forgeevent
+site_description: This is a forgeevent package for managing events in Python applications.
+site_author: landygg
+edit_uri: edit/main/docs/
+repo_name: landygg/forgeevent-py
+copyright: Maintained by <a href="https://landygg.com">landygg</a>.
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: ["forgeevent"]
+  - i18n:
+      languages:
+        - locale: en
+          name: English
+          default: true
+          build: true
+        # - locale: es
+        #   name: Español
+        #   build: true
+
+nav:
+  - Home: index.md
+  - Usage: usage.md
+  - FastAPI Example: fastapi_example.md
+  - Modules: modules.md
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.top
+    - content.code.copy
+    # - content.action.edit
+    - content.action.view
+    - i18n
+    - navigation.footer
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github
+
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/landygg
+    - icon: fontawesome/brands/github
+      link: https://github.com/landygg/forgeevent-py
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/forgeevent
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
