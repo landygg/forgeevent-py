@@ -136,10 +136,6 @@ class LocalHandler(BaseEventHandler):
 
         listeners = self._get_listeners(event_name)
 
-        if not listeners:
-            logger.debug("No listeners registered for event name: %s", event_name)
-            return
-
         for listener in listeners:
             if asyncio.iscoroutinefunction(listener):
                 logger.debug(

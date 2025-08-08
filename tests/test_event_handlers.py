@@ -1,13 +1,19 @@
+"# tests/test_event_handlers.py"
+
 import logging
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any
 
 import pytest
+from _pytest.logging import LogCaptureFixture
 
+from forgeevent.handlers.base import BaseEventHandler
 from forgeevent.handlers.local import local_handler
 from forgeevent.typing import Event
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 @dataclass
@@ -48,7 +54,7 @@ async def notification_payment_successful(event: Event[PaymentSucceededEvent]) -
     Notify payment successful events.
     """
     event_name, payload = event
-    logger.debug(f"[Notifying]:: {event_name} with payload: {payload}")
+    logger.debug("[Notifying]:: %s with payload: %s", event_name, payload)
 
 
 @local_handler.register(event_name=EventType.PAYMENT_SUCCESSFUL)
@@ -57,7 +63,7 @@ async def log_payment_successful(event: Event[PaymentSucceededEvent]) -> None:
     Log payment successful events.
     """
     event_name, payload = event
-    logger.debug(f"[Log]:: {event_name} with payload: {payload}")
+    logger.debug("[Log]:: %s with payload: %s", event_name, payload)
 
 
 async def handle_payment_failed(event: Event[PaymentFailedEvent]) -> None:
@@ -67,7 +73,9 @@ async def handle_payment_failed(event: Event[PaymentFailedEvent]) -> None:
     _, payload = event
 
     logger.debug(
-        f"Handling failed payment for order_id: {payload.order_id} with error: {payload.error}"
+        "Handling failed payment for order_id: %s with error: %s",
+        payload.order_id,
+        payload.error,
     )
 
 
@@ -80,40 +88,80 @@ def handle_payment_pending(event: Event[PaymentPendingEvent]) -> None:
     Handle payment pending events.
     """
     _, payload = event
+
     logger.debug(
-        f"Handling pending payment for order_id: {payload.order_id} with transaction_id: {payload.transaction_id}"
+        "Handling pending payment for order_id: %s with transaction_id: %s",
+        payload.order_id,
+        payload.transaction_id,
     )
 
 
-@pytest.mark.asyncio
-async def test_handle_payment_successful(caplog):
+def evaluate_logging(message: str, caplog: LogCaptureFixture) -> None:
     caplog.set_level(logging.DEBUG)
+    assert any(message in m for m in caplog.messages)
+
+
+@pytest.mark.asyncio
+async def test_handle_payment_successful(caplog: LogCaptureFixture):
     event = (
         EventType.PAYMENT_SUCCESSFUL,
         PaymentSucceededEvent(order_id="order_1", amount=50.0, currency="USD"),
     )
     await local_handler.handle(event)
-    assert any("[Notifying]::" in m for m in caplog.messages)
-    assert any("[Log]::" in m for m in caplog.messages)
+    evaluate_logging("[Notifying]::", caplog)
+    evaluate_logging("[Log]::", caplog)
 
 
 @pytest.mark.asyncio
-async def test_handle_payment_failed(caplog):
+async def test_handle_payment_failed(caplog: LogCaptureFixture):
     caplog.set_level(logging.DEBUG)
     event = (
         EventType.PAYMENT_FAILED,
         PaymentFailedEvent(order_id="order_2", error="Card declined"),
     )
     await local_handler.handle(event)
-    assert any("Handling failed payment for order_id: order_2" in m for m in caplog.messages)
+    evaluate_logging(
+        "Handling failed payment for order_id: order_2 with error: Card declined", caplog
+    )
 
 
 @pytest.mark.asyncio
-async def test_handle_payment_pending(caplog):
-    caplog.set_level(logging.DEBUG)
+async def test_handle_payment_pending(caplog: LogCaptureFixture):
     event = (
         EventType.PAYMENT_PENDING,
         PaymentPendingEvent(order_id="order_3", transaction_id="tx_123"),
     )
     await local_handler.handle(event)
-    assert any("Handling pending payment for order_id: order_3" in m for m in caplog.messages)
+    evaluate_logging(
+        "Handling pending payment for order_id: order_3 with transaction_id: tx_123", caplog
+    )
+
+
+@pytest.mark.asyncio
+async def test_dispatch_payment_events(caplog: LogCaptureFixture):
+    events = [
+        (
+            EventType.PAYMENT_SUCCESSFUL,
+            PaymentSucceededEvent(order_id="order_1", amount=50.0, currency="USD"),
+        ),
+    ]
+    await local_handler.dispatch(events)
+    evaluate_logging("[Notifying]::", caplog)
+    evaluate_logging("[Log]::", caplog)
+
+
+class TestBaseEventHandler(BaseEventHandler):
+    """Test class for BaseEventHandler to ensure NotImplementedError is raised."""
+
+    async def handle(self, event: Any) -> None:
+        await super().handle(event)
+
+
+@pytest.mark.asyncio
+async def test_base_handle_not_implemented():
+    handler = TestBaseEventHandler()
+    with pytest.raises(NotImplementedError):
+        await handler.handle((
+            EventType.PAYMENT_SUCCESSFUL,
+            PaymentSucceededEvent(order_id="order_1"),
+        ))
