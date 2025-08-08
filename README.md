@@ -8,8 +8,8 @@
 
 **forgeevent** is a Python library for event management and dispatching, designed to be simple, flexible, and extensible.
 
-- **GitHub repository:** [https://github.com/landygg/forgeevent-py/](https://github.com/landygg/forgeevent-py/)
-- **Documentation:** [https://landygg.github.io/forgeevent/](https://landygg.github.io/forgeevent/)
+- [**GitHub repository**](https://github.com/landygg/forgeevent-py/)
+- [**Documentation**](https://landygg.github.io/forgeevent-py/)
 
 ---
 
