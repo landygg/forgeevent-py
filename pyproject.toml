@@ -1,6 +1,6 @@
 [project]
 name = "forgeevent"
-version = "0.1.0"
+version = "0.1.2"
 description = "This is a Python library for event management and dispatching, designed to be simple, flexible, and extensible."
 authors = [{ name = "devvolf", email = "devvolf@xkforge.com" }]
 readme = "README.md"
