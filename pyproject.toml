@@ -16,9 +16,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://landygg.github.io/forgeevent/"
+Homepage = "https://landygg.github.io/forgeevent-py/"
 Repository = "https://github.com/landygg/forgeevent-py"
-Documentation = "https://landygg.github.io/forgeevent/"
+Documentation = "https://landygg.github.io/forgeevent-py/"
 
 [dependency-groups]
 dev = [
@@ -51,8 +51,38 @@ python-version = "3.12"
 testpaths = ["tests"]
 
 [tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
 target-version = "py312"
 line-length = 100
+indent-width = 4
 fix = true
 
 [tool.ruff.lint]
@@ -76,7 +106,8 @@ select = [
     # mccabe
     "C90",
     # pycodestyle
-    "E", "W",
+    "E",
+    "W",
     # pyflakes
     "F",
     # pygrep-hooks
@@ -100,6 +131,9 @@ ignore = [
 
 [tool.ruff.format]
 preview = true
+quote-style = "single"
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
 
 [tool.coverage.report]
 skip_empty = true

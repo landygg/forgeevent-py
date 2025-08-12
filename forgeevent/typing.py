@@ -9,6 +9,7 @@ and standard Python typing constructs.
 from enum import Enum
 from typing import Any, TypeVar
 
+# Event-related type definitions
 EventName = str | Enum
-EventPayload = TypeVar("EventPayload", bound=Any)
+EventPayload = TypeVar('EventPayload', bound=Any)
 Event = tuple[EventName, EventPayload]

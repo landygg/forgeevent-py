@@ -61,14 +61,14 @@ class LocalHandler(BaseEventHandler):
         """
 
         logger.debug(
-            "Registering handler for event name: %s with listener: %s", event_name, listener
+            'Registering handler for event name: %s with listener: %s', event_name, listener
         )
 
-        logger.debug("Current listeners for %s: %s", event_name, self._listeners)
+        logger.debug('Current listeners for %s: %s', event_name, self._listeners)
 
         self._listeners.setdefault(event_name, []).append(listener)
 
-        logger.debug("Updated listeners for %s: %s", event_name, self._listeners)
+        logger.debug('Updated listeners for %s: %s', event_name, self._listeners)
 
     def register(
         self, event_name: EventName, listener: Callable[..., Any] | None = None
@@ -110,15 +110,15 @@ class LocalHandler(BaseEventHandler):
                 Callable[..., Any]: The wrapped listener function.
             """
 
-            logger.debug("Wrapping listener for event name: %s", event_name)
+            logger.debug('Wrapping listener for event name: %s', event_name)
             self._register_handler(event_name, _listener)
             return _listener
 
         if listener is None:
-            logger.debug("Registering as a decorator when no listener is provided.")
+            logger.debug('Registering as a decorator when no listener is provided.')
             return wrapper
 
-        logger.debug("Registering listener directly for event name: %s", event_name)
+        logger.debug('Registering listener directly for event name: %s', event_name)
         return wrapper(_listener=listener)
 
     async def handle(self, event: Event[Any]) -> None:
@@ -132,18 +132,18 @@ class LocalHandler(BaseEventHandler):
         """
 
         event_name, payload = event
-        logger.debug("Handling event: %s with payload: %s", event_name, payload)
+        logger.debug('Handling event: %s with payload: %s', event_name, payload)
 
         listeners = self._get_listeners(event_name)
 
         for listener in listeners:
             if asyncio.iscoroutinefunction(listener):
                 logger.debug(
-                    "Calling async listener: %s for event: %s", listener.__name__, event_name
+                    'Calling async listener: %s for event: %s', listener.__name__, event_name
                 )
                 await listener(event)
             else:
-                logger.debug("Calling sync listener: %s for event: %s", listener, event_name)
+                logger.debug('Calling sync listener: %s for event: %s', listener, event_name)
                 # Run the synchronous listener in a separate thread to avoid blocking the event loop
                 loop = asyncio.get_event_loop()
                 await loop.run_in_executor(None, listener, event)
