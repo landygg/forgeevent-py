@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://landygg.github.io/forgeevent/</loc>
+        <lastmod>2025-08-12</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://landygg.github.io/forgeevent/"/>
+    </url>
+    <url>
+        <loc>https://landygg.github.io/forgeevent/fastapi_example/</loc>
+        <lastmod>2025-08-12</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://landygg.github.io/forgeevent/fastapi_example/"/>
+    </url>
+    <url>
+        <loc>https://landygg.github.io/forgeevent/modules/</loc>
+        <lastmod>2025-08-12</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://landygg.github.io/forgeevent/modules/"/>
+    </url>
+    <url>
+        <loc>https://landygg.github.io/forgeevent/usage/</loc>
+        <lastmod>2025-08-12</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://landygg.github.io/forgeevent/usage/"/>
+    </url>
+    <url>
+        <loc>https://landygg.github.io/forgeevent/es/</loc>
+        <lastmod>2025-08-12</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://landygg.github.io/forgeevent/es/"/>
+    </url>
+    <url>
+        <loc>https://landygg.github.io/forgeevent/es/usage/</loc>
+        <lastmod>2025-08-12</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://landygg.github.io/forgeevent/es/usage/"/>
+    </url>
+</urlset>
